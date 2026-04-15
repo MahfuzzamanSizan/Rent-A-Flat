@@ -50,6 +50,9 @@ public class Inquiry {
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
 
+    @Column(name = "deleted_at")
+    private OffsetDateTime deletedAt;
+
     @PrePersist
     protected void onCreate() { createdAt = OffsetDateTime.now(); }
 

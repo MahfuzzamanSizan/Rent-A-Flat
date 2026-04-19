@@ -49,6 +49,9 @@ public class AuthService {
             throw new ApiException(HttpStatus.FORBIDDEN, "Account is suspended");
         }
 
+        // Consume OTP only after everything succeeds
+        otpService.consume(req.getPhone());
+
         String accessToken  = jwtService.generateAccessToken(user.getPhone(), user.getRole(), user.getId());
         String refreshToken = jwtService.generateRefreshToken(user.getId());
 

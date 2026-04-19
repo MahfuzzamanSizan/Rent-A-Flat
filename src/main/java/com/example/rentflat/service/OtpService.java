@@ -44,7 +44,7 @@ public class OtpService {
     }
 
     /**
-     * Verifies the OTP. Deletes it from Redis on success.
+     * Verifies the OTP without deleting it. Call consume() after the full transaction succeeds.
      */
     public void verify(String phone, String otp) {
         String stored = redis.opsForValue().get(otpKey(phone));
@@ -54,6 +54,12 @@ public class OtpService {
         if (!stored.equals(otp)) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Invalid OTP");
         }
+    }
+
+    /**
+     * Deletes the OTP after the full transaction succeeds.
+     */
+    public void consume(String phone) {
         redis.delete(otpKey(phone));
     }
 

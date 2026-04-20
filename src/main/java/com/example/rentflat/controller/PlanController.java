@@ -1,4 +1,3 @@
-/*
 package com.example.rentflat.controller;
 
 import com.example.rentflat.dto.response.SubscriptionPlanDTO;
@@ -19,32 +18,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
 
 @RestController
 @RequiredArgsConstructor
 public class PlanController {
 
     private final SubscriptionPlanRepository planRepository;
-
-    // ── Public ─────────────────────────────────────────────────────────────────
-
-    @GetMapping("/api/v1/subscriptions/plans")
-    public ResponseEntity<List<SubscriptionPlanDTO>> getActivePlans() {
-        return ResponseEntity.ok(
-                planRepository.findByActiveTrue().stream().map(SubscriptionPlanDTO::from).toList()
-        );
-    }
-
-    @GetMapping("/api/v1/subscriptions/plans/{id}")
-    public ResponseEntity<SubscriptionPlanDTO> getPlan(@PathVariable UUID id) {
-        return ResponseEntity.ok(SubscriptionPlanDTO.from(
-                planRepository.findById(id)
-                        .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Plan not found"))
-        ));
-    }
-
-    // ── Admin ──────────────────────────────────────────────────────────────────
 
     @GetMapping("/api/v1/admin/plans")
     @PreAuthorize("hasRole('ADMIN')")
@@ -108,7 +90,6 @@ public class PlanController {
         @Min(0)   private int maxPhotos;
         @Min(0)   private int boostCredits;
         @Min(0)   private int maxContacts;
-        private String features;
+        private Map<String, Object> features;
     }
 }
-*/

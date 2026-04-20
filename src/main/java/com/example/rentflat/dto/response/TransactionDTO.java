@@ -9,6 +9,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Data @Builder
@@ -22,7 +23,7 @@ public class TransactionDTO {
     private String gatewayReference;
     private TransactionStatus status;
     private UUID parentTransactionId;
-    private String metadata;
+    private Map<String, Object> metadata;
     private String description;
     private OffsetDateTime createdAt;
 

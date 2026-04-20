@@ -1,0 +1,1 @@
+UPDATE users SET phone = '01719667855' WHERE phone = '+8801719667855';

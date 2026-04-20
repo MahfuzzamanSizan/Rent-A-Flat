@@ -4,10 +4,13 @@ import com.example.rentflat.enums.PaymentGateway;
 import com.example.rentflat.enums.TransactionStatus;
 import com.example.rentflat.enums.TransactionType;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -50,9 +53,9 @@ public class Transaction {
     @Column(name = "parent_transaction_id")
     private UUID parentTransactionId;
 
-    // Stored as JSON string
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private String metadata;
+    private Map<String, Object> metadata;
 
     @Column(length = 500)
     private String description;

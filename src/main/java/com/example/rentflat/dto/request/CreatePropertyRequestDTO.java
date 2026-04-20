@@ -45,8 +45,7 @@ public class CreatePropertyRequestDTO {
     private BigDecimal sizeSqft;
     private LocalDate availableFrom;
 
-    // JSON string: {"ac":true,"gas":true,...}
-    private String amenities;
+    private List<String> amenities;
     private String houseRules;
     private PreferredTenant preferredTenant;
     private String videoUrl;

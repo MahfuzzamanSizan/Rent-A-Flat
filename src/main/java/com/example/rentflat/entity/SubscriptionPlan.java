@@ -2,10 +2,13 @@ package com.example.rentflat.entity;
 
 import com.example.rentflat.enums.UserRole;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -48,9 +51,9 @@ public class SubscriptionPlan {
     @Builder.Default
     private int maxContacts = 3;
 
-    // Stored as JSON string
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private String features;
+    private Map<String, Object> features;
 
     @Column(name = "is_active", nullable = false)
     @Builder.Default

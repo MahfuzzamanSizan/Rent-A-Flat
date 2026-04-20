@@ -4,6 +4,8 @@ import com.example.rentflat.enums.PreferredTenant;
 import com.example.rentflat.enums.PropertyStatus;
 import com.example.rentflat.enums.PropertyType;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -74,9 +76,9 @@ public class Property {
     @Column(name = "available_from")
     private LocalDate availableFrom;
 
-    // Stored as JSON string: {"ac":true,"gas":true,"lift":false,...}
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private String amenities;
+    private List<String> amenities;
 
     @Column(name = "house_rules", columnDefinition = "TEXT")
     private String houseRules;

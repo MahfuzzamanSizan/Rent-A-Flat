@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Data @Builder
@@ -20,7 +21,7 @@ public class SubscriptionPlanDTO {
     private int maxPhotos;
     private int boostCredits;
     private int maxContacts;
-    private String features;
+    private Map<String, Object> features;
     private boolean active;
     private OffsetDateTime createdAt;
 

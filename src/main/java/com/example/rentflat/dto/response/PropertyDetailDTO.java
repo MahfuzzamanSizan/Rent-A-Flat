@@ -33,7 +33,7 @@ public class PropertyDetailDTO {
     private Short totalFloors;
     private BigDecimal sizeSqft;
     private LocalDate availableFrom;
-    private String amenities;
+    private List<String> amenities;
     private String houseRules;
     private PreferredTenant preferredTenant;
     private String videoUrl;

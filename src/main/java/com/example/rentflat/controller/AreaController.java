@@ -1,9 +1,7 @@
 package com.example.rentflat.controller;
 
 import com.example.rentflat.dto.response.AreaDTO;
-import com.example.rentflat.entity.Area;
-import com.example.rentflat.exception.ApiException;
-import com.example.rentflat.repository.AreaRepository;
+import com.example.rentflat.service.AreaService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -20,15 +18,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AreaController {
 
-    private final AreaRepository areaRepository;
+    private final AreaService areaService;
 
     // ── Public ─────────────────────────────────────────────────────────────────
 
     @GetMapping("/api/v1/areas")
     public ResponseEntity<List<AreaDTO>> getActiveAreas() {
-        return ResponseEntity.ok(
-                areaRepository.findByActiveTrue().stream().map(AreaDTO::from).toList()
-        );
+        return ResponseEntity.ok(areaService.getActiveAreas());
     }
 
     // ── Admin ──────────────────────────────────────────────────────────────────
@@ -36,43 +32,26 @@ public class AreaController {
     @GetMapping("/api/v1/admin/areas")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<AreaDTO>> getAllAreas() {
-        return ResponseEntity.ok(
-                areaRepository.findAll().stream().map(AreaDTO::from).toList()
-        );
+        return ResponseEntity.ok(areaService.getAllAreas());
     }
 
     @PostMapping("/api/v1/admin/areas")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AreaDTO> createArea(@Valid @RequestBody AreaRequest req) {
-        Area area = Area.builder()
-                .city(req.getCity())
-                .district(req.getDistrict())
-                .areaName(req.getAreaName())
-                .subArea(req.getSubArea())
-                .active(true)
-                .build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(AreaDTO.from(areaRepository.save(area)));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(areaService.createArea(req.getCity(), req.getDistrict(), req.getAreaName(), req.getSubArea()));
     }
 
     @PutMapping("/api/v1/admin/areas/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AreaDTO> updateArea(@PathVariable UUID id, @Valid @RequestBody AreaRequest req) {
-        Area area = areaRepository.findById(id)
-                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Area not found"));
-        area.setCity(req.getCity());
-        area.setDistrict(req.getDistrict());
-        area.setAreaName(req.getAreaName());
-        area.setSubArea(req.getSubArea());
-        return ResponseEntity.ok(AreaDTO.from(areaRepository.save(area)));
+        return ResponseEntity.ok(areaService.updateArea(id, req.getCity(), req.getDistrict(), req.getAreaName(), req.getSubArea()));
     }
 
     @PatchMapping("/api/v1/admin/areas/{id}/toggle")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AreaDTO> toggleArea(@PathVariable UUID id) {
-        Area area = areaRepository.findById(id)
-                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Area not found"));
-        area.setActive(!area.isActive());
-        return ResponseEntity.ok(AreaDTO.from(areaRepository.save(area)));
+        return ResponseEntity.ok(areaService.toggleArea(id));
     }
 
     @Data

@@ -25,11 +25,14 @@ public interface PropertyRepository extends JpaRepository<Property, UUID> {
         SELECT p FROM Property p
         WHERE p.deletedAt IS NULL
           AND p.status = 'APPROVED'
-          AND (:areaId IS NULL OR p.areaId = :areaId)
-          AND (:type IS NULL OR p.propertyType = :type)
+          AND (:#{#areaId} IS NULL OR p.areaId = :areaId)
+          AND (:#{#type} IS NULL OR p.propertyType = :type)
           AND (:minRent IS NULL OR p.rentAmount >= :minRent)
           AND (:maxRent IS NULL OR p.rentAmount <= :maxRent)
-          AND (:bedrooms IS NULL OR p.bedrooms = :bedrooms)
+          AND (:#{#bedrooms} IS NULL OR p.bedrooms = :bedrooms)
+          AND (:keyword IS NULL OR LOWER(p.title) LIKE :keyword
+               OR LOWER(p.fullAddress) LIKE :keyword
+               OR LOWER(p.description) LIKE :keyword)
         ORDER BY p.boosted DESC, p.createdAt DESC
         """)
     Page<Property> search(
@@ -38,6 +41,7 @@ public interface PropertyRepository extends JpaRepository<Property, UUID> {
             @Param("minRent") BigDecimal minRent,
             @Param("maxRent") BigDecimal maxRent,
             @Param("bedrooms") Short bedrooms,
+            @Param("keyword") String keyword,
             Pageable pageable);
 
     Page<Property> findByStatusAndDeletedAtIsNull(PropertyStatus status, Pageable pageable);

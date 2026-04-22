@@ -12,6 +12,9 @@ import com.example.rentflat.enums.PropertyType;
 import com.example.rentflat.exception.ApiException;
 import com.example.rentflat.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -72,6 +75,10 @@ public class PropertyService {
         return PropertyDetailDTO.from(property);
     }
 
+    @Caching(evict = {
+        @CacheEvict(value = "properties",      key = "#id"),
+        @CacheEvict(value = "property-search", allEntries = true)
+    })
     @Transactional
     public PropertyDetailDTO updateProperty(UUID id, CreatePropertyRequestDTO req) {
         User owner = userService.getCurrentUser();
@@ -104,6 +111,10 @@ public class PropertyService {
         return PropertyDetailDTO.from(propertyRepository.save(property));
     }
 
+    @Caching(evict = {
+        @CacheEvict(value = "properties",      key = "#id"),
+        @CacheEvict(value = "property-search", allEntries = true)
+    })
     @Transactional
     public void deleteProperty(UUID id) {
         User owner = userService.getCurrentUser();
@@ -116,12 +127,15 @@ public class PropertyService {
         propertyRepository.save(property);
     }
 
+    @Cacheable(value = "property-search",
+               key = "'' + #areaId + '_' + #type + '_' + #minRent + '_' + #maxRent + '_' + #bedrooms + '_' + #keyword + '_' + #pageable.pageNumber + '_' + #pageable.pageSize")
     public PageResponseDTO<PropertySummaryDTO> searchProperties(
             UUID areaId, PropertyType type,
             BigDecimal minRent, BigDecimal maxRent,
-            Short bedrooms, Pageable pageable) {
+            Short bedrooms, String keyword, Pageable pageable) {
+        String likeKeyword = (keyword != null && !keyword.isBlank()) ? "%" + keyword.trim().toLowerCase() + "%" : null;
         return PageResponseDTO.from(
-                propertyRepository.search(areaId, type, minRent, maxRent, bedrooms, pageable)
+                propertyRepository.search(areaId, type, minRent, maxRent, bedrooms, likeKeyword, pageable)
                         .map(PropertySummaryDTO::from));
     }
 

@@ -10,6 +10,8 @@ import com.example.rentflat.exception.ApiException;
 import com.example.rentflat.repository.UserRepository;
 import com.example.rentflat.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,7 @@ public class UserService {
         return UserProfileDTO.from(userRepository.save(user));
     }
 
+    @Cacheable(value = "users", key = "#userId")
     public UserProfileDTO getUserProfile(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));

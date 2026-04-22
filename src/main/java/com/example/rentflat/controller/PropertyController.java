@@ -35,10 +35,11 @@ public class PropertyController {
             @RequestParam(required = false) BigDecimal minRent,
             @RequestParam(required = false) BigDecimal maxRent,
             @RequestParam(required = false) Short bedrooms,
+            @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         return ResponseEntity.ok(propertyService.searchProperties(
-                areaId, type, minRent, maxRent, bedrooms,
+                areaId, type, minRent, maxRent, bedrooms, keyword,
                 PageRequest.of(page, size, Sort.by("createdAt").descending())));
     }
 

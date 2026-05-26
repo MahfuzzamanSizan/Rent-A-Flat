@@ -38,20 +38,29 @@ spring:
     baseline-on-migrate: true
     locations: classpath:db/migration
 
-# 5. Server Configuration
+  # 5. Multipart / File Upload
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+
+# 6. Server Configuration
 server:
   port: 8080
   error:
     include-message: always
 
-# 6. JWT Configuration
+# 7. JWT Configuration
 jwt:
   # Base64-encoded 256-bit secret — change this in production!
   secret: UmVudEVhc2VTZWNyZXRLZXlGb3JKV1RUb2tlbkdlbmVyYXRpb24yMDI2UmVudEVhc2VBcHA=
   access-token-expiration: 900000        # 15 minutes (ms)
   refresh-token-expiration: 2592000000   # 30 days (ms)
 
-# 7. Logging for easier debugging
+upload:
+  dir: uploads
+  base-url: http://192.168.0.106:8080
+
 logging:
   level:
     org.springframework.orm.jpa: DEBUG

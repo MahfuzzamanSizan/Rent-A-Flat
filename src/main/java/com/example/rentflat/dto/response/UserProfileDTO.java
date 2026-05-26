@@ -3,14 +3,16 @@ package com.example.rentflat.dto.response;
 import com.example.rentflat.entity.User;
 import com.example.rentflat.enums.KycStatus;
 import com.example.rentflat.enums.UserRole;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Data @Builder
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class UserProfileDTO {
     private UUID id;
     private String phone;

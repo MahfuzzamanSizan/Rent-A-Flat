@@ -1,11 +1,13 @@
 package com.example.rentflat.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Data @Builder
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class AdminDashboardDTO {
     private long totalUsers;
     private long totalOwners;

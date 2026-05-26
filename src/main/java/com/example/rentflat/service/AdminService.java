@@ -62,8 +62,7 @@ public class AdminService {
     }
 
     public PageResponseDTO<PropertySummaryDTO> listAllProperties(Pageable pageable) {
-        return PageResponseDTO.from(
-                propertyRepository.findAll(pageable).map(PropertySummaryDTO::from));
+        return propertyService.listByStatus(null, pageable);
     }
 
     @Transactional

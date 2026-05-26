@@ -1,13 +1,15 @@
 package com.example.rentflat.dto.response;
 
 import com.example.rentflat.entity.Review;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Data @Builder
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class ReviewDTO {
     private UUID id;
     private UUID reviewerId;

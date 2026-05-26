@@ -2,7 +2,9 @@ package com.example.rentflat.dto.response;
 
 import com.example.rentflat.entity.Lease;
 import com.example.rentflat.enums.LeaseStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,7 +12,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Data @Builder
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class LeaseDTO {
     private UUID id;
     private UUID propertyId;

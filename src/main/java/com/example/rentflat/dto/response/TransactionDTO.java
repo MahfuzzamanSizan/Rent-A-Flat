@@ -4,7 +4,9 @@ import com.example.rentflat.entity.Transaction;
 import com.example.rentflat.enums.PaymentGateway;
 import com.example.rentflat.enums.TransactionStatus;
 import com.example.rentflat.enums.TransactionType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,7 +14,7 @@ import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.UUID;
 
-@Data @Builder
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class TransactionDTO {
     private UUID id;
     private UUID userId;

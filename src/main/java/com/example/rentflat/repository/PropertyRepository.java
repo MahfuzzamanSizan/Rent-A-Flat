@@ -46,6 +46,8 @@ public interface PropertyRepository extends JpaRepository<Property, UUID> {
 
     Page<Property> findByStatusAndDeletedAtIsNull(PropertyStatus status, Pageable pageable);
 
+    Page<Property> findByDeletedAtIsNull(Pageable pageable);
+
     long countByStatus(PropertyStatus status);
     long countByDeletedAtIsNull();
 

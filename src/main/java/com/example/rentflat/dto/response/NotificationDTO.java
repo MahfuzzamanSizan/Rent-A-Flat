@@ -2,13 +2,15 @@ package com.example.rentflat.dto.response;
 
 import com.example.rentflat.entity.Notification;
 import com.example.rentflat.enums.NotificationType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Data @Builder
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class NotificationDTO {
     private UUID id;
     private UUID userId;

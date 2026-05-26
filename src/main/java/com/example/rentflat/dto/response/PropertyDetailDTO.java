@@ -1,25 +1,29 @@
 package com.example.rentflat.dto.response;
 
+import com.example.rentflat.entity.Area;
 import com.example.rentflat.entity.Property;
 import com.example.rentflat.enums.PreferredTenant;
 import com.example.rentflat.enums.PropertyStatus;
 import com.example.rentflat.enums.PropertyType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Data @Builder
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class PropertyDetailDTO {
     private UUID id;
     private UUID ownerId;
     private String title;
     private String description;
-    private UUID areaId;
+    private AreaDTO area;
     private String fullAddress;
     private BigDecimal latitude;
     private BigDecimal longitude;
@@ -49,13 +53,13 @@ public class PropertyDetailDTO {
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 
-    public static PropertyDetailDTO from(Property p) {
+    public static PropertyDetailDTO from(Property p, Area area) {
         return PropertyDetailDTO.builder()
                 .id(p.getId())
                 .ownerId(p.getOwnerId())
                 .title(p.getTitle())
                 .description(p.getDescription())
-                .areaId(p.getAreaId())
+                .area(area != null ? AreaDTO.from(area) : null)
                 .fullAddress(p.getFullAddress())
                 .latitude(p.getLatitude())
                 .longitude(p.getLongitude())
@@ -69,7 +73,7 @@ public class PropertyDetailDTO {
                 .totalFloors(p.getTotalFloors())
                 .sizeSqft(p.getSizeSqft())
                 .availableFrom(p.getAvailableFrom())
-                .amenities(p.getAmenities())
+                .amenities(p.getAmenities() != null ? new ArrayList<>(p.getAmenities()) : new ArrayList<>())
                 .houseRules(p.getHouseRules())
                 .preferredTenant(p.getPreferredTenant())
                 .videoUrl(p.getVideoUrl())
@@ -81,7 +85,7 @@ public class PropertyDetailDTO {
                 .viewsCount(p.getViewsCount())
                 .inquiriesCount(p.getInquiriesCount())
                 .shortlistsCount(p.getShortlistsCount())
-                .photoUrls(p.getPhotoUrls())
+                .photoUrls(p.getPhotoUrls() != null ? new ArrayList<>(p.getPhotoUrls()) : new ArrayList<>())
                 .createdAt(p.getCreatedAt())
                 .updatedAt(p.getUpdatedAt())
                 .build();

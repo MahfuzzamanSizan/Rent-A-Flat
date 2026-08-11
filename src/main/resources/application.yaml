@@ -35,11 +35,15 @@ spring:
         use_sql_comments: true
 
   # 3. Redis Configuration (For Caching)
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+#      # password: your_redis_password (if set in docker-compose)
+
   data:
     redis:
-      host: localhost
-      port: 6379
-      # password: your_redis_password (if set in docker-compose)
+      url: ${REDIS_URL}
 
   # 4. Database Migration (Flyway)
   flyway:

@@ -3,10 +3,19 @@ spring:
     name: rentflat
 
   # 1. Database Configuration (PostgreSQL in Docker)
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/rent_ease_db
+#    username: postgres
+#    password: password
+#    driver-class-name: org.postgresql.Driver
+#    hikari:
+#      maximum-pool-size: 10
+#      minimum-idle: 5
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/rent_ease_db
-    username: postgres
-    password: password
+    url: jdbc:postgresql://neondb_owner:npg_DPjfBu81RFaK@ep-misty-mode-axwggcp4.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require
+    username: neondb_owner
+    password: npg_DPjfBu81RFaK
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
